@@ -1,0 +1,22 @@
+name: docker
+description: Add your description for docker
+author: Mike Mitterer office@mikemitterer.at
+homepage: https://github.com/Mike Mitterer/dart-docker
+
+version: 1.0.0
+
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+
+dependencies:
+  browser: ^0.10.0
+
+  logging: ^0.11.0
+  logging_handlers: ^0.8.0
+  console_log_handler: ^0.1.0
+
+  validate: ^1.0.0
+
+dev_dependencies:
+  test: any
+  grinder: any
