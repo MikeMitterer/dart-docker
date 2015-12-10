@@ -43,7 +43,7 @@ If you need want to dive into Dockers JSON-API check out [bwu_docker](https://pu
 ## Features and bugs
 Please file feature requests and bugs at the [issue tracker](https://github.com/MikeMitterer/dart-docker/issues).
 
-###License###
+## License
 
     Copyright 2015 Michael Mitterer (office@mikemitterer.at),
     IT-Consulting and Development Limited, Austrian Branch
