@@ -15,7 +15,7 @@ dockerStopp() {
 @Task("Start container")
 @Depends(dockerStopp)
 dockerStart() {
-    new Docker()..stop([ "db-webappbase-test" ],quiet: true);
+    new Docker()..start([ "db-webappbase-test" ],quiet: true);
 }
 
 @Task("Check if container runs and if container is available")
