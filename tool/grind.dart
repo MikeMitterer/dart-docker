@@ -2,14 +2,18 @@ import 'package:grinder/grinder.dart';
 
 main(args) => grind(args);
 
-@DefaultTask()
+@Task()
 @Depends(test)
 build() {
 }
 
 @Task()
-@Depends(analyze)
+@Depends(analyze,testUnit,testIntegration)
 test() {
+}
+
+@Task()
+testUnit() {
     new TestRunner().testAsync(files: "test/unit");
 
     // All tests with @TestOn("content-shell") in header
@@ -17,9 +21,18 @@ test() {
 }
 
 @Task()
+testIntegration() {
+    new TestRunner().testAsync(files: "test/integration");
+
+    // All tests with @TestOn("content-shell") in header
+    // new TestRunner().test(files: "test/integration",platformSelector: "content-shell");
+}
+
+@Task()
 analyze() {
     final List<String> libs = [
-        "lib/docker.dart"
+        "lib/docker.dart",
+        "lib/mock.dart"
     ];
 
     libs.forEach((final String lib) => Analyzer.analyze(lib));

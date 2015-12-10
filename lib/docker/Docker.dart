@@ -19,8 +19,17 @@
      
 part of docker;
 
+/// Synchronously runs the "docker" command.
+///
+/// If [quiet] is false, logs the stdout. The stderr is always logged.
+///
+/// Returns the stdout.
+///
+/// All other optional parameters are forwarded to [Process.runSync].
 class Docker {
     static const String _EXECUTABLE = "docker";
+
+    const Docker();
 
     /// Synchronously run an [executable].
     ///
@@ -29,7 +38,9 @@ class Docker {
     /// Returns the stdout.
     ///
     /// All other optional parameters are forwarded to [Process.runSync].
-    static String call(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String call(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+        Validate.notEmpty(arguments);
+
         final Logger _logger = new Logger('docker.Docker');
 
         if (!quiet) _logger.info("${_EXECUTABLE} ${arguments.join(' ')}");
@@ -65,34 +76,40 @@ class Docker {
         return result.stdout;
     }
 
-    static String ps(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String ps(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
         _addArgument("ps",arguments);
         return call(arguments,runOptions: runOptions, quiet: quiet);
     }
 
-    static String inspect(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String inspect(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
         _addArgument("inspect",arguments);
         return call(arguments,runOptions: runOptions, quiet: quiet);
     }
 
-    static String start(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String start(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
         _addArgument("start",arguments);
         return call(arguments,runOptions: runOptions, quiet: quiet);
     }
 
-    static String stop(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String stop(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
         _addArgument("stop",arguments);
         return call(arguments,runOptions: runOptions, quiet: quiet);
     }
 
-    static String run(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
+    String run(final List<String> arguments, { DockerRunOptions runOptions, bool quiet: false } ) {
         _addArgument("run",arguments);
         return call(arguments,runOptions: runOptions, quiet: quiet);
     }
 
+    String version({ DockerRunOptions runOptions, bool quiet: false }) {
+        return call([ "version"],runOptions: runOptions, quiet: quiet);
+    }
     //- private -----------------------------------------------------------------------------------
 
-    static void _addArgument(final String argument,final List<String> arguments) {
+    void _addArgument(final String argument,final List<String> arguments) {
+        Validate.notBlank(argument);
+        Validate.notNull(arguments);
+
         if(arguments != null && arguments.length > 0 && arguments.first != argument) {
             arguments.insert(0,argument);
         }

@@ -17,7 +17,42 @@
  * limitations under the License.
  */
 
-/// This is an awesome library. More dartdocs go here.
+/// Helper for Docker cmdline operations.
+///
+/// Mainly thought as a helper-library for Grinder
+///
+///     @Task("Stops containers")
+///     dockerStopp() {
+///         ["db-webappbase-test", "db-mobiad-test"].forEach((final String container) {
+///             log("Stopping container: $container");
+///             new Docker()..stop([container ],quiet: true);
+///         });
+///     }
+///
+///     @Task("Start container")
+///     @Depends(dockerStopp)
+///     dockerStart() {
+///         new Docker()..stop([ "db-webappbase-test" ],quiet: true);
+///     }
+///
+///     @Task("Check if container runs and if container is available")
+///     containerCheck() async {
+///         final Docker docker = new Docker();
+///
+///         [ "db-mobiad-test"].forEach((final String name) => docker.stop([ name ]));
+///         docker.start([ containerNameToCheck] );
+///
+///         final Container container = new Container(runningContainerIDs());
+///         if(!container.names.contains(containerNameToCheck)) {
+///
+///             container.names.forEach((final String name) {
+///                 log("Active containers: -${name}-");
+///             });
+///
+///             throw new ArgumentError("${containerNameToCheck} must be running for this test!");
+///         }
+///     }
+///
 library docker;
 
 import 'dart:collection';
@@ -25,6 +60,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:validate/validate.dart';
 
 part "docker/DockerRunOptions.dart";
 part "docker/Docker.dart";

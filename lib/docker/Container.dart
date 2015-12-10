@@ -19,46 +19,73 @@
      
 part of docker;
 
+/// Returns all Docker-Container-IDs
+UnmodifiableListView<String> allContainerIDs({ final Docker docker: const Docker() }) {
+    final String allContainers = docker.ps([ "-a", "-q" ],quiet: true);
+    return new UnmodifiableListView<String>(
+        allContainers.split("\n").where(((final String container) => container.trim().isNotEmpty)));
+}
+
+/// Returns Docker-Container-IDs for active/running containers
+UnmodifiableListView<String> runningContainerIDs({ final Docker docker: const Docker() }) {
+    final String allContainers = docker.ps([ "-q" ],quiet: true);
+    return new UnmodifiableListView<String>(
+        allContainers.split("\n").where(((final String container) => container.trim().isNotEmpty)));
+}
+
+/// Wrapper for Docker containers
+///
+///     final Container container = new Container(runningContainerIDs());
+///     container.names.forEach((final String name) {
+///        log("Active containers: -${name}-");
+///     });
+///
 class Container {
     // final Logger _logger = new Logger('docker.Container');
 
+    final Docker _docker;
     final UnmodifiableListView<String> _containerList;
 
-    Container(this._containerList);
-
-    static UnmodifiableListView<String> get all {
-        final String allContainers = Docker.ps([ "-a", "-q" ],quiet: true);
-        return new UnmodifiableListView<String>(
-            allContainers.split("\n").where(((final String container) => container.trim().isNotEmpty)));
+    /// [_containerList] comes from [allContainerIDs] or [runningContainerIDs]
+    Container(this._containerList) : _docker = new Docker() {
+        Validate.notNull(_containerList);
     }
 
-    static UnmodifiableListView<String> get running {
-        final String allContainers = Docker.ps([ "-q" ],quiet: true);
-        return new UnmodifiableListView<String>(
-            allContainers.split("\n").where(((final String container) => container.trim().isNotEmpty)));
+    /// For testing - [_docker] sets a mocked [Docker]-Version
+    Container.withDocker(this._containerList,this._docker) {
+        Validate.notNull(_containerList);
+        Validate.notNull(_docker);
     }
 
-    static String toName(final String containerid) {
-        return Docker.inspect([ "--format='{{.Name}}'", containerid ],quiet: true)
+    /// Converts Container-Id to Container-Name
+    String toName(final String containerid) {
+        Validate.notBlank(containerid);
+
+        return _docker.inspect([ "--format='{{.Name}}'", containerid ],quiet: true)
             .replaceFirst("/","").trim();
     }
 
-    static String toImage(final String containerid) {
-        return Docker.inspect([ "--format='{{.Config.Image}}'", containerid ],quiet: true).trim();
+    /// Converts Container-Id to Image-Name
+    String toImage(final String containerid) {
+        Validate.notBlank(containerid);
+
+        return _docker.inspect([ "--format='{{.Config.Image}}'", containerid ],quiet: true).trim();
     }
 
+    /// All available Container-names.
     UnmodifiableListView<String> get names {
         final List<String> names = new List<String>();
 
-        _containerList.forEach((final String containerid) => names.add(Container.toName(containerid)));
+        _containerList.forEach((final String containerid) => names.add(toName(containerid)));
 
         return new UnmodifiableListView<String>(names);
     }
 
+    /// All available Container-image-names
     UnmodifiableListView<String> get images {
         final List<String> images = new List<String>();
 
-        _containerList.forEach((final String containerid) => images.add(Container.toImage(containerid)));
+        _containerList.forEach((final String containerid) => images.add(toImage(containerid)));
 
         return new UnmodifiableListView<String>(images);
     }
