@@ -1,6 +1,6 @@
 name: docker
 description: A Dart wrapper around the Docker command line
-author: Mike Mitterer office@mikemitterer.at
+author: Mike Mitterer <office@mikemitterer.at>
 homepage: https://github.com/MikeMitterer/dart-docker.git
 
 version: 0.1.1
