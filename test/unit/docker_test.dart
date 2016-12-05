@@ -41,6 +41,14 @@ main() {
 
     }); // end of 'Names' test
 
+    test('> Returend name', () {
+        final Container containerAll = new Container.withDocker(allContainerIDs(docker: mockedDocker),mockedDocker);
+
+        final String name = containerAll.toName("b594630d731a");
+        expect(name,"name_b594630d731a");
+
+    }); // end of 'Returend name' test
+
     test('> Stop', () {
         expect(mockedDocker.stop([ "b594630d731a"] ), "b594630d731a");
         expect(mockedDocker.stop([ "name_b594630d731a"] ), "name_b594630d731a");

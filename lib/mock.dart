@@ -25,8 +25,13 @@ import 'package:docker/docker.dart';
 class _MockContainer {
 
     final String id;
+
+    /// Generated from given id - something like /name_b594630d731a
     final String name;
+
+    /// Generated from given id - something like test/name_b594630d731a
     final String image;
+
     final bool active;
 
     _MockContainer(final String id,final bool active) : this.id = id, this.active = active,

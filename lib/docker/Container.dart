@@ -62,7 +62,7 @@ class Container {
         Validate.notBlank(containerid);
 
         return _docker.inspect([ "--format='{{.Name}}'", containerid ],quiet: true)
-            .replaceFirst("/","").trim();
+            .replaceAll(new RegExp(r"(?:/|')"),"").trim();
     }
 
     /// Converts Container-Id to Image-Name
