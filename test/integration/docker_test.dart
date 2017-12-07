@@ -45,7 +45,7 @@ main() {
         expect(docker.version().contains("Version:"), isTrue);
     }); // end of 'Version' test
 
-    test('> Start', () {
+    test('> Start Hello-World', () {
         final String out = docker.run([ "hello-world" ]);
         expect(out, contains("Hello from Docker!"));
 
