@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+@TestOn("vm")
 library docker.integration.test;
 
 import 'package:test/test.dart';
@@ -44,6 +44,14 @@ main() {
     test('> Version', () {
         expect(docker.version().contains("Version:"), isTrue);
     }); // end of 'Version' test
+
+    test('> Start', () {
+        final String out = docker.run([ "hello-world" ]);
+        expect(out, contains("Hello from Docker!"));
+
+        //docker.start([ "hello-world" ]);
+        
+    }); // end of 'Start' test
 
   });
 }

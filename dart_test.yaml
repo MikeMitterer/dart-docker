@@ -1,0 +1,10 @@
+# This is a VM package, so test on VM by default.
+platforms: [ vm ]
+
+paths:
+  - test/unit
+  - test/integration
+
+
+
+
