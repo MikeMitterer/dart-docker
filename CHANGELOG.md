@@ -1,6 +1,11 @@
 # Change Log for docker
 A Dart wrapper around the Docker command line
 
+## [Unreleased](http://github.com/mikemitterer/dart-docker/compare/v0.2...HEAD)
+
+### Refactor
+* More relaxed version constraints [1bed1a5](https://github.com/mikemitterer/dart-docker/commit/1bed1a52b457bf86a275fc89ab55a0b1d4a9b84e)
+
 ## [v0.1.5](http://github.com/mikemitterer/dart-docker/compare/v0.1.4...v0.1.5) - 2016-11-16
 
 ### Docs
