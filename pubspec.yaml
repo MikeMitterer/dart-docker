@@ -18,3 +18,7 @@ dependencies:
 dev_dependencies:
   test: any
   grinder: any
+
+  build_runner: any
+  build_test: any
+  build_web_compilers: any
