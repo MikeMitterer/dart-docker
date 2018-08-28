@@ -6,6 +6,9 @@ A Dart wrapper around the Docker command line
 ### Feature
 * Dart 2.x ready [7d3733b](https://github.com/mikemitterer/dart-docker/commit/7d3733bc12cca86784f86260d8be75f890309011)
 
+### Refactor
+* Minimal SDK is now Dart 2.0 [326df61](https://github.com/mikemitterer/dart-docker/commit/326df612175ba1922ba06e8c95136ab014057494)
+
 ## [v0.3](http://github.com/mikemitterer/dart-docker/compare/v0.2...v0.3) - 2017-12-07
 
 ### Refactor
